@@ -223,7 +223,6 @@ public class ModClientConfig {
                                                                     } catch (Exception e) {
                                                                         // 提示用户输入的表达式无效
                                                                         config.functionOfSplashingAnim = "1.8-abs(sin(n*2*pi)*0.1)";
-                                                                        parent.close();
 
                                                                         // 记录日志
                                                                         System.err.println("配置表达式无效，已恢复为默认值！");
