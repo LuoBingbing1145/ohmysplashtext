@@ -1,0 +1,50 @@
+{
+	"schemaVersion": 1,
+	"id": "ohmysplashtext",
+	"version": "${version}",
+	"name": "OhMySplashText",
+	"description": "An easy setting mod for splash text!",
+	"authors": [
+		"LuoBingbing1145"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/ohmysplashtext/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"luobingbing1145.ohmysplashtext.OhMySplashText"
+		],
+		"client": [
+			"luobingbing1145.ohmysplashtext.OhMySplashTextClient"
+		],
+		"modmenu": [
+			"luobingbing1145.ohmysplashtext.ModMenuCompat"
+		]
+	},
+	"mixins": [
+		"ohmysplashtext.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"yet_another_config_lib_v3": ">=3.4.0"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.github": "https://github.com/LuoBingbing1145"
+			},
+			"badges": [],
+			"update_checker": true
+		}
+	}
+}
