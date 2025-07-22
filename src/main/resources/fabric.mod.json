@@ -8,8 +8,8 @@
 		"LuoBingbing1145"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1",
+		"issues": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/ohmysplashtext/icon.png",
@@ -41,9 +41,9 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.github": "https://github.com/LuoBingbing1145"
+				"modmenu.source": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1",
+				"modmenu.issues": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1/issues"
 			},
-			"badges": [],
 			"update_checker": true
 		}
 	}
