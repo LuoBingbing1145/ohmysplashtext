@@ -25,5 +25,9 @@
   "config.ohmysplashtext.option.scaleY.desc": "设置文本Y轴大小",
   "config.ohmysplashtext.option.scaleZ.desc": "设置文本Z轴大小",
   "config.ohmysplashtext.label.advancedOptions": "高级选项",
-  "config.ohmysplashtext.label.tips": "按下“保存更改”以刷新选项"
+  "config.ohmysplashtext.label.tips": "按下“保存更改”以刷新选项",
+  "config.ohmysplashtext.option.isText": "自定义文本选项",
+  "config.ohmysplashtext.option.isText.desc": "开启或关闭自定义文本",
+  "config.ohmysplashtext.option.text": "自定义文本",
+  "config.ohmysplashtext.option.text.desc": "设置自定义文本"
 }

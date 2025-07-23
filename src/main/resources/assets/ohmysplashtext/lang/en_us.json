@@ -25,5 +25,9 @@
   "config.ohmysplashtext.option.scaleY.desc": "Set the Text Y-axis Scale",
   "config.ohmysplashtext.option.scaleZ.desc": "Set the Text Z-axis Scale",
   "config.ohmysplashtext.label.advancedOptions": "Advanced Options",
-  "config.ohmysplashtext.label.tips": "Press \"Save Changes\" to Refresh the Options"
+  "config.ohmysplashtext.label.tips": "Press \"Save Changes\" to Refresh the Options",
+  "config.ohmysplashtext.option.isText": "Custom Text Option",
+  "config.ohmysplashtext.option.isText.desc": "Enable or Disable Custom Text",
+  "config.ohmysplashtext.option.text": "Custom Text",
+  "config.ohmysplashtext.option.text.desc": "Set Custom Text"
 }

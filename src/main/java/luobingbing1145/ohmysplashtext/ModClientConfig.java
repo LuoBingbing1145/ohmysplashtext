@@ -35,6 +35,12 @@ public class ModClientConfig {
     private float scale = 1f;
 
     @SerialEntry
+    private boolean isCustomTextEnable = false;
+
+    @SerialEntry
+    private String text = "Custom Text!";
+
+    @SerialEntry
     private Color color = new Color(0xffffff00, true);
 
     @SerialEntry
@@ -92,6 +98,36 @@ public class ModClientConfig {
                                                                         .step(0.1f)
                                                         )
                                                         .available(!config.isAdvancedModeEnable())
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<Boolean>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.isText"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.isText.desc")))
+                                                        .binding(
+                                                                false,
+                                                                () -> config.isCustomTextEnable,
+                                                                value -> {
+                                                                    config.isCustomTextEnable = value;
+                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                }
+                                                        )
+                                                        .controller(BooleanControllerBuilder::create)
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<String>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.text"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.text.desc")))
+                                                        .binding(
+                                                                "Custom Text",
+                                                                () -> config.text,
+                                                                value -> config.text = value
+                                                        )
+                                                        .available(config.isCustomTextEnable())
+                                                        .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
                                         .option(
@@ -196,7 +232,7 @@ public class ModClientConfig {
                                                                         .range(-360f, 360f)
                                                                         .step(10f)
                                                         )
-                                                        .available(config.isRotationAnimEnable)
+                                                        .available(config.isRotationAnimEnable())
                                                         .build()
                                         )
                                         .option(
@@ -242,7 +278,7 @@ public class ModClientConfig {
                                                                     }
                                                                 }
                                                         )
-                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable)
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
                                                         .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
@@ -360,5 +396,13 @@ public class ModClientConfig {
 
     public Color getColor() {
         return color;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean isCustomTextEnable() {
+        return isCustomTextEnable;
     }
 }

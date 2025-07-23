@@ -72,4 +72,13 @@ public abstract class SplashTextRendererMixin {
     private int modifyColor(int centerX) {
         return config.getColor().getRGB();
     }
+
+    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawCenteredTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"), index = 1)
+    private String modifyText(String text) {
+        if (config.isCustomTextEnable()) {
+            return config.getText();
+        } else {
+            return text;
+        }
+    }
 }
