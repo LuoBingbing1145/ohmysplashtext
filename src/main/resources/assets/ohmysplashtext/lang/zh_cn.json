@@ -17,12 +17,13 @@
   "config.ohmysplashtext.option.rotationSpeed": "旋转速度",
   "config.ohmysplashtext.option.rotationSpeed.desc": "设置文本旋转速度（度每秒）",
   "config.ohmysplashtext.option.splashingFunction": "闪烁动画表达式",
-  "config.ohmysplashtext.option.splashingFunction.desc": "自定义闪烁动画\nn表示时间（单位秒）\nsin()表示正弦函数\ncos()表示余弦函数\nabs()表示绝对值\npi表示π",
+  "config.ohmysplashtext.option.splashingFunction.desc": "自定义闪烁动画\nn表示当前时间戳\nsin()表示正弦函数\ncos()表示余弦函数\nabs()表示绝对值\n%表示取模运算\npi表示π\n例：e.g. 0.5+abs(cos(n%(2000/3)/1000*pi*3))*2表示0.5+2|cos 3π(n%(2000/3)/1000)|",
   "config.ohmysplashtext.option.scaleX": "X轴大小",
   "config.ohmysplashtext.option.scaleY": "Y轴大小",
   "config.ohmysplashtext.option.scaleZ": "Z轴大小",
   "config.ohmysplashtext.option.scaleX.desc": "设置文本X轴大小",
   "config.ohmysplashtext.option.scaleY.desc": "设置文本Y轴大小",
   "config.ohmysplashtext.option.scaleZ.desc": "设置文本Z轴大小",
-  "config.ohmysplashtext.option.advancedOptions": "高级选项"
+  "config.ohmysplashtext.label.advancedOptions": "高级选项",
+  "config.ohmysplashtext.label.tips": "按下“保存更改”以刷新选项"
 }

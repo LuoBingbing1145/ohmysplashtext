@@ -39,7 +39,7 @@ public class MathExpressionParser {
                 while (j < expr.length() && Character.isLetter(expr.charAt(j))) j++;
                 tokens.add(expr.substring(i, j));
                 i = j;
-            } else if ("+-*/()".indexOf(c) >= 0 || c == ',') {
+            } else if ("+-*/()%".indexOf(c) >= 0 || c == ',') {
                 tokens.add(Character.toString(c));
                 i++;
             } else {
@@ -93,6 +93,7 @@ public class MathExpressionParser {
                 case "-" -> a - b;
                 case "*" -> a * b;
                 case "/" -> a / b;
+                case "%" -> a % b;
                 default -> throw new RuntimeException("未知操作: " + op);
             };
         }
@@ -114,7 +115,6 @@ public class MathExpressionParser {
                 case "sin" -> Math.sin(x);
                 case "cos" -> Math.cos(x);
                 case "abs" -> Math.abs(x);
-                case "neg" -> -x;
                 default -> throw new RuntimeException("未知函数: " + func);
             };
         }
@@ -141,7 +141,7 @@ public class MathExpressionParser {
 
     private static Node parseMulDiv(Queue<String> tokens) {
         Node left = parseFactor(tokens);
-        while (!tokens.isEmpty() && (tokens.peek().equals("*") || tokens.peek().equals("/"))) {
+        while (!tokens.isEmpty() && (tokens.peek().equals("*") || tokens.peek().equals("/") || tokens.peek().equals("%"))) {
             String op = tokens.poll();
             Node right = parseFactor(tokens);
             left = new BinaryOpNode(op, left, right);
@@ -153,10 +153,33 @@ public class MathExpressionParser {
         String token = tokens.poll();
         if (token == null) throw new RuntimeException("表达式不完整");
 
-        //  支持负号前缀
+        // 处理负号前缀
         if (token.equals("-")) {
-            Node factor = parseFactor(tokens);  // 递归获取下一个因子
-            return new FuncNode("neg", factor); // 自定义“neg”表示取负
+            // 如果负号后面是数字或变量，解析它为负数
+            if (tokens.peek() != null && isNumber(tokens.peek())) {
+                return new NumberNode(-Double.parseDouble(tokens.poll()));
+            }
+            // 如果负号后面是变量 "n"
+            if (tokens.peek() != null && tokens.peek().equals("n")) {
+                tokens.poll(); // 移除 "n"
+                return new VariableNode();
+            }
+            // 如果负号后面是函数
+            if (tokens.peek() != null && isFunction(tokens.peek())) {
+                String func = tokens.poll();
+                if (!Objects.equals(tokens.poll(), "(")) throw new RuntimeException("函数调用缺少括号");
+                Node arg = parseExpr(tokens);
+                if (!Objects.equals(tokens.poll(), ")")) throw new RuntimeException("函数调用括号未闭合");
+                return new FuncNode(func, arg); // 创建负的函数调用
+            }
+            // 如果负号后面是括号表达式，递归解析括号里的内容
+            if (tokens.peek() != null && tokens.peek().equals("(")) {
+                Node inner = parseExpr(tokens);
+                if (!Objects.equals(tokens.poll(), ")")) throw new RuntimeException("括号未闭合");
+                return new BinaryOpNode("-", new NumberNode(0), inner); // 负号可以视为 -1 * 表达式
+            }
+
+            throw new RuntimeException("非法负号后缀: " + token);
         }
 
         if (token.equals("(")) {

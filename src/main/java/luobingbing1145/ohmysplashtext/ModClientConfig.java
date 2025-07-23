@@ -1,13 +1,16 @@
 package luobingbing1145.ohmysplashtext;
 
 import com.google.gson.GsonBuilder;
+import com.terraformersmc.modmenu.gui.ModsScreen;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -52,8 +55,8 @@ public class ModClientConfig {
     @SerialEntry
     private boolean isAdvancedModeEnable = false;
 
-    @SerialEntry(comment = "Custom Splashing Animation\nn for time(in seconds)\nsin() for sine function\ncos() for cosine function\nabs() for absolute value\npi for π")
-    private String functionOfSplashingAnim = "1.8-abs(sin(n*2*pi)*0.1)";
+    @SerialEntry(comment = "Custom Splashing Animation\nn for current timestamp\nsin() for sine function\ncos() for cosine function\nabs() for absolute value\n% for mod operator\npi for π\ne.g. 0.5+abs(cos(n%(2000/3)/1000*pi*3))*2 for 0.5+2|cos 3π(n%(2000/3)/1000)|")
+    private String functionOfSplashingAnim = "1.8-abs(sin(n%(2000/2)/1000*2*pi)*0.1)";
 
     @SerialEntry
     private float scaleX = 1;
@@ -88,6 +91,7 @@ public class ModClientConfig {
                                                                         .range(0.1f, 5f)
                                                                         .step(0.1f)
                                                         )
+                                                        .available(!config.isAdvancedModeEnable())
                                                         .build()
                                         )
                                         .option(
@@ -133,7 +137,10 @@ public class ModClientConfig {
                                                         .binding(
                                                                 true,
                                                                 () -> config.isSplashingAnimEnable,
-                                                                value -> config.isSplashingAnimEnable = value
+                                                                value -> {
+                                                                    config.isSplashingAnimEnable = value;
+                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                }
                                                         )
                                                         .controller(BooleanControllerBuilder::create)
                                                         .build()
@@ -151,10 +158,10 @@ public class ModClientConfig {
                                                         .controller(floatOption ->
                                                                 FloatSliderControllerBuilder
                                                                         .create(floatOption)
-                                                                        .range(0.5f, 5f)
-                                                                        .step(0.5f)
+                                                                        .range(0.1f, 5f)
+                                                                        .step(0.1f)
                                                         )
-                                                        .available(config.isSplashingAnimEnable())
+                                                        .available(config.isSplashingAnimEnable() && !config.isAdvancedModeEnable())
                                                         .build()
                                         )
                                         .option(
@@ -165,7 +172,10 @@ public class ModClientConfig {
                                                         .binding(
                                                                 false,
                                                                 () -> config.isRotationAnimEnable,
-                                                                value -> config.isRotationAnimEnable = value
+                                                                value -> {
+                                                                    config.isRotationAnimEnable = value;
+                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                }
                                                         )
                                                         .controller(BooleanControllerBuilder::create)
                                                         .build()
@@ -192,7 +202,7 @@ public class ModClientConfig {
                                         .option(
                                                 LabelOption
                                                         .createBuilder()
-                                                        .line(Text.translatable("config.ohmysplashtext.option.advancedOptions"))
+                                                        .line(Text.translatable("config.ohmysplashtext.label.advancedOptions"))
                                                         .build()
                                         )
                                         .option(
@@ -203,7 +213,10 @@ public class ModClientConfig {
                                                         .binding(
                                                                 false,
                                                                 () -> config.isAdvancedModeEnable,
-                                                                value -> config.isAdvancedModeEnable = value
+                                                                value -> {
+                                                                    config.isAdvancedModeEnable = value;
+                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                }
                                                         )
                                                         .controller(TickBoxControllerBuilder::create)
                                                         .build()
@@ -214,7 +227,7 @@ public class ModClientConfig {
                                                         .name(Text.translatable("config.ohmysplashtext.option.splashingFunction"))
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashingFunction.desc")))
                                                         .binding(
-                                                                "1.8-abs(sin(n*2*pi)*0.1)",
+                                                                "1.8-abs(sin(n%(2000/2)/1000*2*pi)*0.1)",
                                                                 () -> config.functionOfSplashingAnim,
                                                                 value -> {
                                                                     try {
@@ -222,7 +235,7 @@ public class ModClientConfig {
                                                                         config.functionOfSplashingAnim = value;
                                                                     } catch (Exception e) {
                                                                         // 提示用户输入的表达式无效
-                                                                        config.functionOfSplashingAnim = "1.8-abs(sin(n*2*pi)*0.1)";
+                                                                        config.functionOfSplashingAnim = "1.8-abs(sin(n%(2000/2))/1000*2*pi)*0.1)";
 
                                                                         // 记录日志
                                                                         System.err.println("配置表达式无效，已恢复为默认值！");
@@ -288,6 +301,12 @@ public class ModClientConfig {
                                                                         .step(0.1f)
                                                         )
                                                         .available(config.isAdvancedModeEnable())
+                                                        .build()
+                                        )
+                                        .option(
+                                                LabelOption
+                                                        .createBuilder()
+                                                        .line(Text.translatable("config.ohmysplashtext.label.tips"))
                                                         .build()
                                         )
                                         .build()

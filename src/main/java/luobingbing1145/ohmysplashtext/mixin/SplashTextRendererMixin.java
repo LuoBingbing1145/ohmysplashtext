@@ -32,7 +32,7 @@ public abstract class SplashTextRendererMixin {
         if (config.isSplashingAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
                 DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                float originalScale = (float) ((parser.applyAsDouble((Util.getMeasuringTimeMs() % 1000f) / 1000f)) * 100.0F / (float) (textRenderer.getWidth(accessor.getText()) + 32));
+                float originalScale = (float) ((parser.applyAsDouble(Util.getMeasuringTimeMs())) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
                 float x = config.getScaleX() * originalScale;
                 float y = config.getScaleY() * originalScale;
                 float z = config.getScaleZ() * originalScale;
@@ -40,7 +40,7 @@ public abstract class SplashTextRendererMixin {
                 args.set(1, y);
                 args.set(2, z);
             } else {
-                float originalScale = (1.8F - MathHelper.abs(MathHelper.sin((float) (Util.getMeasuringTimeMs() % 1000L) / 1000.0F * ((float) Math.PI * config.getSplashingSpeed())) * 0.1F)) * 100.0F / (float) (textRenderer.getWidth(accessor.getText()) + 32);
+                float originalScale = (1.8f - MathHelper.abs(MathHelper.sin((Util.getMeasuringTimeMs() % (2000f / config.getSplashingSpeed())) / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
                 float scale = config.getScale() * originalScale;
                 args.set(0, scale);
                 args.set(1, scale);
