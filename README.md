@@ -1,2 +1,1 @@
-An easy mod for splash text settings!
-In developing...
+A Simple Mod for Splash Text Settings
