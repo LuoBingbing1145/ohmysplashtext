@@ -2,6 +2,7 @@ package luobingbing1145.ohmysplashtext.mixin;
 
 import luobingbing1145.ohmysplashtext.MathExpressionParser;
 import luobingbing1145.ohmysplashtext.ModClientConfig;
+import luobingbing1145.ohmysplashtext.OhMySplashTextClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
@@ -19,7 +20,7 @@ import java.util.function.DoubleUnaryOperator;
 @Mixin(SplashTextRenderer.class)
 public abstract class SplashTextRendererMixin {
     @Unique
-    ModClientConfig config = ModClientConfig.INSTANCE.instance();
+    ModClientConfig config = OhMySplashTextClient.getConfig();
 
     @Unique
     SplashTextRenderer instance = (SplashTextRenderer) (Object) this;
@@ -35,10 +36,12 @@ public abstract class SplashTextRendererMixin {
                 float originalScale = (float) ((parser.applyAsDouble(Util.getMeasuringTimeMs())) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
                 float x = config.getScaleX() * originalScale;
                 float y = config.getScaleY() * originalScale;
-                float z = config.getScaleZ() * originalScale;
+                /*float z = config.getScaleZ() * originalScale;*/
+                //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
                 args.set(0, x);
                 args.set(1, y);
-                args.set(2, z);
+                args.set(2, 1f);
+                //z轴入参设为1
             } else {
                 float originalScale = (1.8f - MathHelper.abs(MathHelper.sin((Util.getMeasuringTimeMs() % (2000f / config.getSplashingSpeed())) / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
                 float scale = config.getScale() * originalScale;
@@ -58,10 +61,15 @@ public abstract class SplashTextRendererMixin {
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/RotationAxis;rotationDegrees(F)Lorg/joml/Quaternionf;"))
     private float modifyRotation(float deg) {
         if (config.isRotationAnimEnable()) {
-            if (config.getRotationSpeed() != 0) {
-                return Util.getMeasuringTimeMs() / 1000f * config.getRotationSpeed();
+            if (config.isAdvancedModeEnable()) {
+                DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
+                return (float) parser.applyAsDouble(Util.getMeasuringTimeMs());
             } else {
-                return config.getRotation();
+                if (config.getRotationSpeed() != 0) {
+                    return Util.getMeasuringTimeMs() / 1000f * config.getRotationSpeed();
+                } else {
+                    return config.getRotation();
+                }
             }
         } else {
             return config.getRotation();
@@ -75,10 +83,10 @@ public abstract class SplashTextRendererMixin {
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawCenteredTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"), index = 1)
     private String modifyText(String text) {
-        if (config.isCustomTextEnable()) {
-            return config.getText();
-        } else {
+        if (config.getText().isEmpty()) {
             return text;
+        } else {
+            return config.getText();
         }
     }
 }

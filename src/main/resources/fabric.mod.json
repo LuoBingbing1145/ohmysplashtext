@@ -3,7 +3,7 @@
 	"id": "ohmysplashtext",
 	"version": "${version}",
 	"name": "OhMySplashText",
-	"description": "An easy setting mod for splash text!",
+	"description": "A Simple Mod for Splash Text Settings",
 	"authors": [
 		"LuoBingbing1145"
 	],
@@ -29,11 +29,12 @@
 		"ohmysplashtext.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.14",
+		"fabricloader": ">=0.15.0",
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*",
-		"yet_another_config_lib_v3": ">=3.4.0"
+		"yet_another_config_lib_v3": ">=3.4.0",
+		"modmenu": ">=7.0.1"
 	},
 	"suggests": {
 		"another-mod": "*"
@@ -41,7 +42,6 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.source": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1",
 				"modmenu.issues": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1/issues"
 			},
 			"update_checker": true

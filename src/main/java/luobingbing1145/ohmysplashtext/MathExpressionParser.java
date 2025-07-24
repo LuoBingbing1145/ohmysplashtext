@@ -18,7 +18,7 @@ public class MathExpressionParser {
             logger.severe("表达式解析错误：" + e.getMessage());
 
             // 返回默认值表达式
-            ast = parseExpression(tokenize("1.8 - abs(sin(n * 2 * pi) * 0.1)"));
+            ast = parseExpression(tokenize("1.8-abs(sin(n%(2000/2)/1000*2*pi)*0.1)"));
         }
         return ast::eval;
     }
