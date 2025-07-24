@@ -11,8 +11,10 @@ import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.function.DoubleUnaryOperator;
@@ -87,6 +89,13 @@ public abstract class SplashTextRendererMixin {
             return text;
         } else {
             return config.getText();
+        }
+    }
+
+    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+    private void modifyDisplayable(DrawContext context, int screenWidth, TextRenderer textRenderer, int alpha, CallbackInfo ci) {
+        if (!config.isSplashTextEnable()) {
+            ci.cancel();
         }
     }
 }

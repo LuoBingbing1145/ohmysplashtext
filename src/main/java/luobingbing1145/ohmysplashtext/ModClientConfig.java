@@ -1,7 +1,6 @@
 package luobingbing1145.ohmysplashtext;
 
 import com.google.gson.GsonBuilder;
-import com.terraformersmc.modmenu.gui.ModsScreen;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
@@ -10,7 +9,6 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -30,6 +28,12 @@ public class ModClientConfig {
                                     .build()
                     )
                     .build();
+
+    @SerialEntry
+    private boolean isSplashTextEnable = true;
+
+    @SerialEntry
+    private boolean isButtonEnable = true;
 
     @SerialEntry
     private float scale = 1f;
@@ -107,6 +111,47 @@ public class ModClientConfig {
                                         .createBuilder()
                                         .name(Text.translatable("config.ohmysplashtext.title"))
                                         .option(
+                                                LabelOption
+                                                        .createBuilder()
+                                                        .line(Text.translatable("config.ohmysplashtext.label.general"))
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<Boolean>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.splashText"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashText.desc")))
+                                                        .binding(
+                                                                defaults.isSplashTextEnable,
+                                                                () -> config.isSplashTextEnable,
+                                                                value -> {
+                                                                    config.isSplashTextEnable = value;
+                                                                    refreshScreen(makeScreen(parent));
+                                                                }
+                                                        )
+                                                        .controller(BooleanControllerBuilder::create)
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<Boolean>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.button"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.button.desc")))
+                                                        .binding(
+                                                                defaults.isButtonEnable,
+                                                                () -> config.isButtonEnable,
+                                                                value -> config.isButtonEnable = value
+                                                        )
+                                                        .controller(BooleanControllerBuilder::create)
+                                                        .build()
+                                        )
+                                        .option(
+                                                LabelOption
+                                                        .createBuilder()
+                                                        .line(Text.translatable("config.ohmysplashtext.label.text"))
+                                                        .build()
+                                        )
+                                        .option(
                                                 Option
                                                         .<Float>createBuilder()
                                                         .name(Text.translatable("config.ohmysplashtext.option.scale"))
@@ -122,7 +167,7 @@ public class ModClientConfig {
                                                                         .range(0.1f, 5f)
                                                                         .step(0.1f)
                                                         )
-                                                        .available(!config.isAdvancedModeEnable())
+                                                        .available(!config.isAdvancedModeEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -136,6 +181,7 @@ public class ModClientConfig {
                                                                 value -> config.text = value
                                                         )
                                                         .controller(StringControllerBuilder::create)
+                                                        .available(config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -153,6 +199,13 @@ public class ModClientConfig {
                                                                         .create(colorOption)
                                                                         .allowAlpha(true)
                                                         )
+                                                        .available(config.isSplashTextEnable())
+                                                        .build()
+                                        )
+                                        .option(
+                                                LabelOption
+                                                        .createBuilder()
+                                                        .line(Text.translatable("config.ohmysplashtext.label.splashing"))
                                                         .build()
                                         )
                                         .option(
@@ -165,10 +218,11 @@ public class ModClientConfig {
                                                                 () -> config.isSplashingAnimEnable,
                                                                 value -> {
                                                                     config.isSplashingAnimEnable = value;
-                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                    refreshScreen(makeScreen(parent));
                                                                 }
                                                         )
                                                         .controller(BooleanControllerBuilder::create)
+                                                        .available(config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -187,7 +241,13 @@ public class ModClientConfig {
                                                                         .range(0.1f, 5f)
                                                                         .step(0.1f)
                                                         )
-                                                        .available(config.isSplashingAnimEnable() && !config.isAdvancedModeEnable())
+                                                        .available(config.isSplashingAnimEnable() && !config.isAdvancedModeEnable() && config.isSplashTextEnable())
+                                                        .build()
+                                        )
+                                        .option(
+                                                LabelOption
+                                                        .createBuilder()
+                                                        .line(Text.translatable("config.ohmysplashtext.label.rotation"))
                                                         .build()
                                         )
                                         .option(
@@ -206,7 +266,7 @@ public class ModClientConfig {
                                                                         .range(-180f, 180f)
                                                                         .step(1f)
                                                         )
-                                                        .available(!config.isRotationAnimEnable())
+                                                        .available(!config.isRotationAnimEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -219,10 +279,11 @@ public class ModClientConfig {
                                                                 () -> config.isRotationAnimEnable,
                                                                 value -> {
                                                                     config.isRotationAnimEnable = value;
-                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                    refreshScreen(makeScreen(parent));
                                                                 }
                                                         )
                                                         .controller(BooleanControllerBuilder::create)
+                                                        .available(config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -241,7 +302,7 @@ public class ModClientConfig {
                                                                         .range(-360f, 360f)
                                                                         .step(10f)
                                                         )
-                                                        .available(config.isRotationAnimEnable() && !config.isAdvancedModeEnable())
+                                                        .available(config.isRotationAnimEnable() && !config.isAdvancedModeEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -260,10 +321,11 @@ public class ModClientConfig {
                                                                 () -> config.isAdvancedModeEnable,
                                                                 value -> {
                                                                     config.isAdvancedModeEnable = value;
-                                                                    MinecraftClient.getInstance().setScreen(makeScreen(new ModsScreen(new TitleScreen())));
+                                                                    refreshScreen(makeScreen(parent));
                                                                 }
                                                         )
                                                         .controller(TickBoxControllerBuilder::create)
+                                                        .available(config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -282,7 +344,7 @@ public class ModClientConfig {
                                                                         .range(0.1f, 5f)
                                                                         .step(0.1f)
                                                         )
-                                                        .available(config.isAdvancedModeEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -301,7 +363,7 @@ public class ModClientConfig {
                                                                         .range(0.1f, 5f)
                                                                         .step(0.1f)
                                                         )
-                                                        .available(config.isAdvancedModeEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -325,7 +387,7 @@ public class ModClientConfig {
                                                                     }
                                                                 }
                                                         )
-                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable() && config.isSplashTextEnable())
                                                         .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
@@ -350,7 +412,7 @@ public class ModClientConfig {
                                                                     }
                                                                 }
                                                         )
-                                                        .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.isSplashTextEnable())
                                                         .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
@@ -383,6 +445,10 @@ public class ModClientConfig {
                                         .build()
                         )
         ).generateScreen(parent);
+    }
+
+    private static void refreshScreen(Screen screen) {
+        MinecraftClient.getInstance().setScreen(screen);
     }
 
     public float getSplashingSpeed() {
@@ -440,5 +506,13 @@ public class ModClientConfig {
 
     public String getFunctionOfRotationAnim() {
         return functionOfRotationAnim;
+    }
+
+    public boolean isSplashTextEnable() {
+        return isSplashTextEnable;
+    }
+
+    public boolean isButtonEnable() {
+        return isButtonEnable;
     }
 }

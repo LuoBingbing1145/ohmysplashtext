@@ -29,5 +29,14 @@
   "config.ohmysplashtext.option.splashingSpeed.desc": "Set the Text's Splashing Speed\nThe \"Splashing Animation\" option needs to be on",
   "config.ohmysplashtext.option.text": "Custom Text",
   "config.ohmysplashtext.option.text.desc": "Set Custom Text",
-  "config.ohmysplashtext.title": "Config Screen"
+  "config.ohmysplashtext.title": "Config Screen",
+  "menu.ohmysplashtext.configScreen": "Splash Text",
+  "config.ohmysplashtext.label.general": "General Options",
+  "config.ohmysplashtext.label.text": "Text Options",
+  "config.ohmysplashtext.label.splashing": "Splashing Options",
+  "config.ohmysplashtext.label.rotation": "Rotation Options",
+  "config.ohmysplashtext.option.splashText": "Splash Text",
+  "config.ohmysplashtext.option.splashText.desc": "Enable or Disable Splash Text",
+  "config.ohmysplashtext.option.button": "Config Screen Button",
+  "config.ohmysplashtext.option.button.desc": "Enable or Disable a Button to the Config Screen in the Title Screen"
 }

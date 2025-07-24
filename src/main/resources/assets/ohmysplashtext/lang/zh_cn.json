@@ -29,5 +29,14 @@
   "config.ohmysplashtext.option.splashingSpeed.desc": "设置文本闪烁速度\n需开启“闪烁动画”选项",
   "config.ohmysplashtext.option.text": "自定义文本",
   "config.ohmysplashtext.option.text.desc": "设置自定义文本",
-  "config.ohmysplashtext.title": "配置界面"
+  "config.ohmysplashtext.title": "配置界面",
+  "menu.ohmysplashtext.configScreen": "闪烁标语",
+  "config.ohmysplashtext.label.general": "通用选项",
+  "config.ohmysplashtext.label.text": "文本选项",
+  "config.ohmysplashtext.label.splashing": "闪烁选项",
+  "config.ohmysplashtext.label.rotation": "旋转选项",
+  "config.ohmysplashtext.option.splashText": "闪烁标语",
+  "config.ohmysplashtext.option.splashText.desc": "开启或关闭闪烁标语",
+  "config.ohmysplashtext.option.button": "配置界面按钮",
+  "config.ohmysplashtext.option.button.desc": "在主菜单上开启或关闭配置界面按钮"
 }
