@@ -6,6 +6,8 @@ import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import luobingbing1145.ohmysplashtext.gui.screen.GraphScreen;
+import luobingbing1145.ohmysplashtext.util.MathExpressionParser;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -13,6 +15,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.awt.*;
+import java.util.function.DoubleUnaryOperator;
 
 public class ModClientConfig {
     public static ConfigClassHandler<ModClientConfig> INSTANCE =
@@ -70,30 +73,22 @@ public class ModClientConfig {
 
     @SerialEntry(comment =
             """
-            Custom Splashing Animations
-            n for current timestamp
-            sin() for sine function
-            cos() for cosine function
-            abs() for absolute value
-            % for mod operator
-            pi for π
-            e.g. 0.5+abs(cos(n%(2000/3)/1000*pi*3))*2 for 0.5+2|cos(3π(n%(2000/3)/1000))|
-            The "Rotation Animation" option needs to be on
+            Customize Splashing Animation
+            n Represents Current Timestamp(Seconds)
+            sin(), cos(), abs(), %, pi Supported
+            Example: 0.5+abs(cos(n*pi*3))*2 = 0.5+2|cos(3πn)|
+            Requires "Rotation Animation" Enable
             """
     )
-    private String functionOfSplashingAnim = "1.8-abs(sin(n%(2000/2)/1000*2*pi)*0.1)";
+    private String functionOfSplashingAnim = "1.8-abs(sin(n*2*pi)*0.1)";
 
     @SerialEntry(comment =
             """
-            Custom Rotation Animations
-            n for current timestamp
-            sin() for sine function
-            cos() for cosine function
-            abs() for absolute value
-            % for mod operator
-            pi for π
-            e.g. sin(n/1000*2*pi)*1.5 for 1.5sin(2π(n/1000))
-            The "Splashing Animation" option needs to be on
+            Customize Rotation Animation
+            n Represents Current Timestamp(Seconds)
+            sin(), cos(), abs(), %, pi Supported
+            Example: sin(n*2*pi)*1.5 = 1.5sin(2πn))
+            Requires "Splashing Animation" Enable
             """
     )
     private String functionOfRotationAnim = "-20";
@@ -123,7 +118,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashText.desc")))
                                                         .binding(
                                                                 defaults.isSplashTextEnable,
-                                                                () -> config.isSplashTextEnable,
+                                                                config::isSplashTextEnable,
                                                                 value -> {
                                                                     config.isSplashTextEnable = value;
                                                                     refreshScreen(makeScreen(parent));
@@ -139,7 +134,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.button.desc")))
                                                         .binding(
                                                                 defaults.isButtonEnable,
-                                                                () -> config.isButtonEnable,
+                                                                config::isButtonEnable,
                                                                 value -> config.isButtonEnable = value
                                                         )
                                                         .controller(BooleanControllerBuilder::create)
@@ -158,7 +153,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.scale.desc")))
                                                         .binding(
                                                                 defaults.scale,
-                                                                () -> config.scale,
+                                                                config::getScale,
                                                                 value -> config.scale = value
                                                         )
                                                         .controller(floatOption ->
@@ -177,7 +172,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.text.desc")))
                                                         .binding(
                                                                 defaults.text,
-                                                                () -> config.text,
+                                                                config::getText,
                                                                 value -> config.text = value
                                                         )
                                                         .controller(StringControllerBuilder::create)
@@ -191,7 +186,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.color.desc")))
                                                         .binding(
                                                                 defaults.color,
-                                                                () -> config.color,
+                                                                config::getColor,
                                                                 value -> config.color = value
                                                         )
                                                         .controller(colorOption ->
@@ -215,7 +210,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashingAnim.desc")))
                                                         .binding(
                                                                 defaults.isSplashingAnimEnable,
-                                                                () -> config.isSplashingAnimEnable,
+                                                                config::isSplashingAnimEnable,
                                                                 value -> {
                                                                     config.isSplashingAnimEnable = value;
                                                                     refreshScreen(makeScreen(parent));
@@ -232,7 +227,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashingSpeed.desc")))
                                                         .binding(
                                                                 defaults.splashingSpeed,
-                                                                () -> config.splashingSpeed,
+                                                                config::getSplashingSpeed,
                                                                 value -> config.splashingSpeed = value
                                                         )
                                                         .controller(floatOption ->
@@ -257,7 +252,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.rotation.desc")))
                                                         .binding(
                                                                 defaults.rotation,
-                                                                () -> config.rotation,
+                                                                config::getRotation,
                                                                 value -> config.rotation = value
                                                         )
                                                         .controller(floatOption ->
@@ -276,7 +271,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.rotationAnim.desc")))
                                                         .binding(
                                                                 defaults.isRotationAnimEnable,
-                                                                () -> config.isRotationAnimEnable,
+                                                                config::isRotationAnimEnable,
                                                                 value -> {
                                                                     config.isRotationAnimEnable = value;
                                                                     refreshScreen(makeScreen(parent));
@@ -293,7 +288,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.rotationSpeed.desc")))
                                                         .binding(
                                                                 defaults.rotationSpeed,
-                                                                () -> config.rotationSpeed,
+                                                                config::getRotationSpeed,
                                                                 value -> config.rotationSpeed = value
                                                         )
                                                         .controller(floatOption ->
@@ -318,7 +313,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.advancedMode.desc")))
                                                         .binding(
                                                                 defaults.isAdvancedModeEnable,
-                                                                () -> config.isAdvancedModeEnable,
+                                                                config::isAdvancedModeEnable,
                                                                 value -> {
                                                                     config.isAdvancedModeEnable = value;
                                                                     refreshScreen(makeScreen(parent));
@@ -335,7 +330,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.scaleX.desc")))
                                                         .binding(
                                                                 defaults.scaleX,
-                                                                () -> config.scaleX,
+                                                                config::getScaleX,
                                                                 value -> config.scaleX = value
                                                         )
                                                         .controller(floatOption ->
@@ -354,7 +349,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.scaleY.desc")))
                                                         .binding(
                                                                 defaults.scaleY,
-                                                                () -> config.scaleY,
+                                                                config::getScaleY,
                                                                 value -> config.scaleY = value
                                                         )
                                                         .controller(floatOption ->
@@ -373,14 +368,14 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.splashingFunction.desc")))
                                                         .binding(
                                                                 defaults.functionOfSplashingAnim,
-                                                                () -> config.functionOfSplashingAnim,
+                                                                config::getFunctionOfSplashingAnim,
                                                                 value -> {
                                                                     try {
                                                                         MathExpressionParser.parse(value);  // 尝试解析表达式
                                                                         config.functionOfSplashingAnim = value;
                                                                     } catch (Exception e) {
                                                                         // 提示用户输入的表达式无效
-                                                                        config.functionOfSplashingAnim = defaults.functionOfSplashingAnim;
+                                                                        config.functionOfSplashingAnim = defaults.getFunctionOfSplashingAnim();
 
                                                                         // 记录日志
                                                                         System.err.println("配置表达式无效，已恢复为默认值！");
@@ -392,20 +387,32 @@ public class ModClientConfig {
                                                         .build()
                                         )
                                         .option(
+                                                ButtonOption
+                                                        .createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.gragh"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
+                                                        .action((yaclScreen, buttonOption) -> {
+                                                            DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.02, 0.02, 0.05, 20));
+                                                        })
+                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
+                                                        .build()
+                                        )
+                                        .option(
                                                 Option
                                                         .<String>createBuilder()
                                                         .name(Text.translatable("config.ohmysplashtext.option.rotationFunction"))
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.rotationFunction.desc")))
                                                         .binding(
-                                                                defaults.functionOfRotationAnim,
-                                                                () -> config.functionOfRotationAnim,
+                                                                defaults.getFunctionOfRotationAnim(),
+                                                                config::getFunctionOfRotationAnim,
                                                                 value -> {
                                                                     try {
                                                                         MathExpressionParser.parse(value);  // 尝试解析表达式
                                                                         config.functionOfRotationAnim = value;
                                                                     } catch (Exception e) {
                                                                         // 提示用户输入的表达式无效
-                                                                        config.functionOfRotationAnim = defaults.functionOfRotationAnim;
+                                                                        config.functionOfRotationAnim = defaults.getFunctionOfRotationAnim();
 
                                                                         // 记录日志
                                                                         System.err.println("配置表达式无效，已恢复为默认值！");
@@ -414,6 +421,18 @@ public class ModClientConfig {
                                                         )
                                                         .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.isSplashTextEnable())
                                                         .controller(StringControllerBuilder::create)
+                                                        .build()
+                                        )
+                                        .option(
+                                                ButtonOption
+                                                        .createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.gragh2"))
+                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
+                                                        .action((yaclScreen, buttonOption) -> {
+                                                            DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.02, 0.5, 0.05, 20));
+                                                        })
+                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()
                                         )
                                         /*.option(

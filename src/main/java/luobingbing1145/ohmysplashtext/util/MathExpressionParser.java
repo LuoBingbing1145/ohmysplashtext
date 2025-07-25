@@ -1,4 +1,4 @@
-package luobingbing1145.ohmysplashtext;
+package luobingbing1145.ohmysplashtext.util;
 
 import java.util.*;
 import java.util.function.DoubleUnaryOperator;

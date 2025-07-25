@@ -34,7 +34,7 @@ public abstract class TitleScreenMixin {
                                     Text.translatable("menu.ohmysplashtext.configScreen"),
                                     (button) -> ACCESSOR.getClient().setScreen(ModClientConfig.makeScreen(INSTANCE))
                             )
-                            .dimensions(INSTANCE.width - 100, -10, 100, 20)
+                            .dimensions(INSTANCE.width - 100, 0, 100, 20)
                             .build()
             );
         }

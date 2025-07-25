@@ -1,6 +1,6 @@
 package luobingbing1145.ohmysplashtext.mixin;
 
-import luobingbing1145.ohmysplashtext.MathExpressionParser;
+import luobingbing1145.ohmysplashtext.util.MathExpressionParser;
 import luobingbing1145.ohmysplashtext.ModClientConfig;
 import luobingbing1145.ohmysplashtext.OhMySplashTextClient;
 import net.minecraft.client.font.TextRenderer;
@@ -35,7 +35,7 @@ public abstract class SplashTextRendererMixin {
         if (config.isSplashingAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
                 DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                float originalScale = (float) ((parser.applyAsDouble(Util.getMeasuringTimeMs())) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
+                float originalScale = (float) ((parser.applyAsDouble((double) Util.getMeasuringTimeMs() / 1000)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
                 float x = config.getScaleX() * originalScale;
                 float y = config.getScaleY() * originalScale;
                 /*float z = config.getScaleZ() * originalScale;*/
@@ -45,7 +45,7 @@ public abstract class SplashTextRendererMixin {
                 args.set(2, 1f);
                 //z轴入参设为1
             } else {
-                float originalScale = (1.8f - MathHelper.abs(MathHelper.sin((Util.getMeasuringTimeMs() % (2000f / config.getSplashingSpeed())) / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
+                float originalScale = (1.8f - MathHelper.abs(MathHelper.sin((((float) Util.getMeasuringTimeMs() / 1000) % (2000f / config.getSplashingSpeed())) / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
                 float scale = config.getScale() * originalScale;
                 args.set(0, scale);
                 args.set(1, scale);
@@ -65,7 +65,7 @@ public abstract class SplashTextRendererMixin {
         if (config.isRotationAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
                 DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                return (float) parser.applyAsDouble(Util.getMeasuringTimeMs());
+                return (float) parser.applyAsDouble(((double) Util.getMeasuringTimeMs() / 1000));
             } else {
                 if (config.getRotationSpeed() != 0) {
                     return Util.getMeasuringTimeMs() / 1000f * config.getRotationSpeed();
