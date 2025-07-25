@@ -45,7 +45,7 @@ public abstract class SplashTextRendererMixin {
                 args.set(2, 1f);
                 //z轴入参设为1
             } else {
-                float originalScale = (1.8f - MathHelper.abs(MathHelper.sin((((float) Util.getMeasuringTimeMs() / 1000) % (2000f / config.getSplashingSpeed())) / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
+                float originalScale = (1.8f - MathHelper.abs(MathHelper.sin(Util.getMeasuringTimeMs() / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
                 float scale = config.getScale() * originalScale;
                 args.set(0, scale);
                 args.set(1, scale);
