@@ -25,7 +25,7 @@
 
 ### ✅ 必需依赖：  
 - [Fabric API](https://modrinth.com/mod/fabric-api)  
-- [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yet-another-config-lib)  
+- [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl)  
 
 ### 🧩 可选依赖（推荐）：  
 - [Mod Menu](https://modrinth.com/mod/modmenu)：用于在游戏内快速打开配置界面。  
