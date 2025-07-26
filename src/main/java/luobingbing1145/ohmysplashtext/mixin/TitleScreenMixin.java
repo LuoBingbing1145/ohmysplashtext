@@ -25,8 +25,8 @@ public abstract class TitleScreenMixin {
     @Unique
     private final ScreenAccessor ACCESSOR = (ScreenAccessor) INSTANCE;
 
-    @Inject(method = "initWidgetsNormal", at = @At(value = "TAIL"))
-    private void addButton(int y, int spacingY, CallbackInfo ci) {
+    @Inject(method = "init", at = @At(value = "TAIL"))
+    private void addButton(CallbackInfo ci) {
         if (CONFIG.isButtonEnable()) {
             INVOKER.invokeAddDrawableChild(
                     ButtonWidget
