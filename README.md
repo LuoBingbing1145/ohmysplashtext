@@ -18,7 +18,7 @@
 - 🔄 自由调整旋转角度  
 - 📈 使用数学表达式自定义动画（如位置、旋转等随时间变化），支持实时预览  
 
-目前支持 Minecraft **1.20.1 (Fabric)** ，后续有计划移植到更新版本。  
+目前支持 Minecraft **1.20.X** 和 **1.21.X (Fabric)**，未来将适配更多版本。  
 
 ## 📦 安装方式  
 模组暂未上架 Modrinth 或 CurseForge，**请通过 GitHub Releases 页面下载**：[Releases](https://github.com/LuoBingbing1145/ohmysplashtext/releases)  
@@ -30,7 +30,7 @@
 ### 🧩 可选依赖（推荐）：  
 - [Mod Menu](https://modrinth.com/mod/modmenu)：用于在游戏内快速打开配置界面。  
 
-将 `.jar` 文件放入对应版本的 `/mods` 文件夹，即可启动。  
+将 `.jar` 文件放入对应版本的 `mods` 文件夹，即可启动。  
 
 ## 🌍 多语言支持  
 
