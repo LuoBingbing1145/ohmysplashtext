@@ -21,7 +21,7 @@ public class ModClientConfig {
     public static ConfigClassHandler<ModClientConfig> INSTANCE =
             ConfigClassHandler
                     .createBuilder(ModClientConfig.class)
-                    .id(new Identifier(OhMySplashText.MOD_ID, "client_config"))
+                    .id(Identifier.of(OhMySplashText.MOD_ID, "client_config"))
                     .serializer(config ->
                             GsonConfigSerializerBuilder
                                     .create(config)
@@ -393,7 +393,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.02, 0.02, 0.05, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005, 0.01, 0.3, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
                                                         .build()
@@ -430,7 +430,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.02, 0.5, 0.05, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005, 0.5, 0.3, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()

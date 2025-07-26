@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.function.DoubleUnaryOperator;
 
 public class GraphScreen extends Screen {
@@ -39,7 +40,7 @@ public class GraphScreen extends Screen {
                                         client.setScreen(parent);
                                     }
                                 })
-                        .position(width - 100, height - 30)
+                        .position(width - 110, height - 30)
                         .size(100, 20)
                         .build()
         );
@@ -47,19 +48,27 @@ public class GraphScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta); // 背景
         super.render(context, mouseX, mouseY, delta);
+
         drawAxes(context, new Color(0xffffffff, true));
-        drawFunction(context, function, new Color(0xffffff00, true)/*, new Color(0xff000000, true)*/);
+
+        cacheFunctionPoints();
+        drawFunction(context, cachedPoints, new Color(0xffffff00, true));
+
         context.drawTextWithShadow(textRenderer, Text.translatable("graghScreen.ratio", SCALE_X, SCALE_Y), 0, 0, 0xffffffff);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        super.renderBackground(context, mouseX, mouseY, deltaTicks);
     }
 
     private void drawAxes(@NotNull DrawContext context, @NotNull Color color) {
         int centerX = width / 2;
         int centerY = height / 2;
 
-        context.fill(PADDING, centerY, width - PADDING, centerY + 1, color.getRGB());
-        context.fill(centerX, PADDING, centerX + 1, height - PADDING, color.getRGB());
+        context.drawVerticalLine(centerX, PADDING, height - PADDING, color.getRGB());
+        context.drawHorizontalLine(PADDING, width - PADDING, centerY, color.getRGB());
 
         for (int i = 0; i < 5; i++) {
             context.fill(width - PADDING - i, centerY + i, width - PADDING - i - 1, centerY + i + 1, color.getRGB());
@@ -69,23 +78,29 @@ public class GraphScreen extends Screen {
         }
     }
 
-    private void drawFunction(DrawContext context, DoubleUnaryOperator func, Color fColor/*, Color sColor*/) {
+    private void drawFunction(DrawContext context, @NotNull ArrayList<Point> points, Color color) {
+        for (Point p : points) {
+            context.fill(p.x, p.y, p.x + 1, p.y + 1, color.getRGB());
+        }
+    }
+
+    private void cacheFunctionPoints() {
+        if (cachedPoints != null) return;
+
+        cachedPoints = new ArrayList<>();
+
         int centerX = width / 2;
         int centerY = height / 2;
 
         for (double px = PADDING; px <= width - PADDING; px += PRECISION) {
             double nx = (-centerX + px) * SCALE_X;
-            double ny = func.applyAsDouble(nx);
-            double py = (int) (centerY - ny / SCALE_Y);
-            context.fill((int) px, (int) py, (int) (px + 1), (int) (py + 1), fColor.getRGB());
-            /*if ((nx % 1 <= PRECISION && nx % 1 >= 0) || (nx % 1 >= -PRECISION && nx % 1 <= 0)) {
-                context.fill((int) px, centerY + 1, (int) (px + 1), centerY - 1, sColor.getRGB());
-            }*/
+            double ny = function.applyAsDouble(nx);
+            double py = centerY - ny / SCALE_Y;
+            cachedPoints.add(new Point((int) px, (int) py));
         }
-
-        /*for (double py = PADDING; py <= height - PADDING; py += PRECISION) {
-            double ny = (centerY - py) * SCALE_Y;
-            context.fill(centerX - 1, (int) ny, centerX + 1, (int) (ny + 1), sColor.getRGB());
-        }*/
     }
+
+    private ArrayList<Point> cachedPoints = null;
+
+    private record Point(int x, int y) {}
 }
