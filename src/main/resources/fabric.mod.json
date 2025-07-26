@@ -31,7 +31,8 @@
 	"depends": {
 		"fabricloader": ">=0.16.0",
 		"minecraft": [
-			"1.21.2"
+			"1.21.2",
+			"1.21.3"
 		],
 		"java": ">=17",
 		"yet_another_config_lib_v3": ">=3.6.0"
