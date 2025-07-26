@@ -393,7 +393,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005, 0.01, 0.3, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.02, 0.3, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
                                                         .build()
@@ -430,31 +430,11 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005, 0.5, 0.3, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.5, 0.3, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()
                                         )
-                                        /*.option(
-                                                Option
-                                                        .<Float>createBuilder()
-                                                        .name(Text.translatable("config.ohmysplashtext.option.scaleZ"))
-                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.scaleZ.desc")))
-                                                        .binding(
-                                                                defaults.scaleZ,
-                                                                () -> config.scaleZ,
-                                                                value -> config.scaleZ = value
-                                                        )
-                                                        .controller(floatOption ->
-                                                                FloatSliderControllerBuilder
-                                                                        .create(floatOption)
-                                                                        .range(0.1f, 5f)
-                                                                        .step(0.1f)
-                                                        )
-                                                        .available(config.isAdvancedModeEnable())
-                                                        .build()
-                                        )*/
-                                        //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
                                         .option(
                                                 LabelOption
                                                         .createBuilder()
