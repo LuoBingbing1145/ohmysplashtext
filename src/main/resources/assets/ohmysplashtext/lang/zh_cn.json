@@ -12,7 +12,7 @@
   "config.ohmysplashtext.option.color": "文本颜色",
   "config.ohmysplashtext.option.color.desc": "设置文本颜色",
   "config.ohmysplashtext.option.gragh": "闪烁函数预览",
-  "config.ohmysplashtext.option.gragh.desc": "预览当前函数图像",
+  "config.ohmysplashtext.option.gragh.desc": "预览当前函数图像（实验性内容）",
   "config.ohmysplashtext.option.gragh2": "旋转函数预览",
   "config.ohmysplashtext.option.rotation": "旋转角度",
   "config.ohmysplashtext.option.rotation.desc": "设置文本旋转角度",
