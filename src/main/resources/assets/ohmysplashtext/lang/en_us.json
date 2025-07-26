@@ -12,7 +12,7 @@
   "config.ohmysplashtext.option.color": "Text Color",
   "config.ohmysplashtext.option.color.desc": "Set the Text Color",
   "config.ohmysplashtext.option.gragh": "Splashing Function Preview",
-  "config.ohmysplashtext.option.gragh.desc": "Preview the current function graph",
+  "config.ohmysplashtext.option.gragh.desc": "Preview the current function graph (Experimental Content)",
   "config.ohmysplashtext.option.gragh2": "Rotation Function Preview",
   "config.ohmysplashtext.option.rotation": "Rotation Angle",
   "config.ohmysplashtext.option.rotation.desc": "Set the Text Rotation Angle",
