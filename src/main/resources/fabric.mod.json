@@ -8,8 +8,8 @@
 		"LuoBingbing1145"
 	],
 	"contact": {
-		"sources": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1",
-		"issues": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1/issues"
+		"sources": "https://github.com/LuoBingbing1145/ohmysplashtext",
+		"issues": "https://github.com/LuoBingbing1145/ohmysplashtext/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/ohmysplashtext/icon.png",
@@ -30,9 +30,9 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.0",
-		"minecraft": "~1.20.1",
+		"minecraft": "1.21.8",
 		"java": ">=17",
-		"yet_another_config_lib_v3": ">=3.4.0"
+		"yet_another_config_lib_v3": ">=3.7.1"
 	},
 	"suggests": {
 		"another-mod": "*"
@@ -40,7 +40,7 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.issues": "https://github.com/LuoBingbing1145/ohmysplashtext-template-1.20.1/issues"
+				"modmenu.issues": "https://github.com/LuoBingbing1145/ohmysplashtext/issues"
 			},
 			"update_checker": true
 		}
