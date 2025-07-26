@@ -47,7 +47,7 @@ public class GraphScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context); // 背景
+        renderBackground(context, mouseX, mouseY, delta); // 背景
         super.render(context, mouseX, mouseY, delta);
         drawAxes(context, new Color(0xffffffff, true));
         drawFunction(context, function, new Color(0xffffff00, true)/*, new Color(0xff000000, true)*/);
