@@ -21,7 +21,7 @@ public class ModClientConfig {
     public static ConfigClassHandler<ModClientConfig> INSTANCE =
             ConfigClassHandler
                     .createBuilder(ModClientConfig.class)
-                    .id(new Identifier(OhMySplashText.MOD_ID, "client_config"))
+                    .id(Identifier.of(OhMySplashText.MOD_ID, "client_config"))
                     .serializer(config ->
                             GsonConfigSerializerBuilder
                                     .create(config)
