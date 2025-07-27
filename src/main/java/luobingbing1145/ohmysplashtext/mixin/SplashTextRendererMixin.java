@@ -38,12 +38,9 @@ public abstract class SplashTextRendererMixin {
                 float originalScale = (float) ((parser.applyAsDouble((double) Util.getMeasuringTimeMs() / 1000)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
                 float x = config.getScaleX() * originalScale;
                 float y = config.getScaleY() * originalScale;
-                /*float z = config.getScaleZ() * originalScale;*/
-                //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
                 args.set(0, x);
                 args.set(1, y);
                 args.set(2, 1f);
-                //z轴入参设为1
             } else {
                 float originalScale = (1.8f - MathHelper.abs(MathHelper.sin(Util.getMeasuringTimeMs() / 1000f * (float) Math.PI * config.getSplashingSpeed()) * 0.1f)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32);
                 float scale = config.getScale() * originalScale;
