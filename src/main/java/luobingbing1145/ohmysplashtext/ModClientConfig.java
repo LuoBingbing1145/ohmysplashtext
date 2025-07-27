@@ -93,10 +93,6 @@ public class ModClientConfig {
     )
     private String functionOfRotationAnim = "-20";
 
-    /*@SerialEntry
-    private float scaleZ = 1;*/
-    //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
-
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.create(INSTANCE, (defaults, config, builder) ->
                 builder
@@ -393,7 +389,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.02, 0.3, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.02f, 0.1f, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
                                                         .build()
@@ -430,7 +426,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.5, 0.3, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.5f, 0.1f, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()
@@ -485,11 +481,6 @@ public class ModClientConfig {
     public float getScaleY() {
         return scaleY;
     }
-
-    /*public float getScaleZ() {
-        return scaleZ;
-    }*/
-    //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
 
     public float getScale() {
         return scale;
