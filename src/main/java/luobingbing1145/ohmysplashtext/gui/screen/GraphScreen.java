@@ -99,7 +99,8 @@ public class GraphScreen extends Screen {
         }
 
         drawAxes(context, new Color(0xffffffff, true));
-        drawFunction(context, new Color(0xffffff00, true), mouseX);
+        drawFunction(context, new Color(0xffffff00, true));
+        drawTooltip(context, mouseX, new Color(0xff007fff, true));
 
         context.drawTextWithShadow(textRenderer, Text.translatable("graghScreen.ratio", SCALE_X, SCALE_Y), 0, 0, 0xffffffff);
     }
@@ -124,12 +125,23 @@ public class GraphScreen extends Screen {
         }
     }
 
-    private void drawFunction(DrawContext context, Color fColor, int mouseX) {
+    private void drawFunction(DrawContext context, Color fColor) {
         for (Point p : cachedPoints) {
             context.fill(p.x, p.y, p.x + 1, p.y + 1, fColor.getRGB());
-            if (p.x == mouseX && coord) {
-                context.drawTooltip(textRenderer, Text.translatable("graghScreen.tooltip", String.format("%.2f", (mouseX - width / 2) * SCALE_X), String.format("%.2f", (height / 2 - p.y) * SCALE_Y)), p.x, p.y);
-            }
+        }
+    }
+
+    private void drawTooltip(@NotNull DrawContext context, int mouseX, Color color) {
+        int centerX = width / 2;
+        int centerY = height / 2;
+
+        float nx = (-centerX + mouseX) * SCALE_X;
+        float ny = (float) FUNCTION.applyAsDouble(nx);
+        float py = centerY - ny / SCALE_Y;
+
+        if (mouseX >= PADDING && mouseX <= width - PADDING && coord) {
+            context.fill(mouseX - 1, (int) (py - 1), mouseX + 2, (int) (py + 2), color.getRGB());
+            context.drawTooltip(textRenderer, Text.translatable("graghScreen.tooltip", String.format("%.2f", nx), String.format("%.2f", ny)), mouseX, (int) py);
         }
     }
 }
