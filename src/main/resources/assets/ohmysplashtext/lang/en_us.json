@@ -41,5 +41,7 @@
   "config.ohmysplashtext.title": "Config Screen",
   "graghScreen.ratio": "Ratio X: %s Per Pixels  Ratio Y: %s Per Pixels",
   "graghScreen.title": "Function Preview Screen",
-  "menu.ohmysplashtext.configScreen": "Splash Text"
+  "menu.ohmysplashtext.configScreen": "Splash Text",
+  "graghScreen.tooltip": "X: %s  Y: %s",
+  "graghScreen.coord": "Toggle Coordinate"
 }
