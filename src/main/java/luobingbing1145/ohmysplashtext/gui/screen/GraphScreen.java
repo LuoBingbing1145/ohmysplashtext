@@ -50,7 +50,7 @@ public class GraphScreen extends Screen {
         renderBackground(context); // 背景
         super.render(context, mouseX, mouseY, delta);
         drawAxes(context, new Color(0xffffffff, true));
-        drawFunction(context, function, new Color(0xffffff00, true)/*, new Color(0xff000000, true)*/);
+        drawFunction(context, function, new Color(0xffffff00, true));
         context.drawTextWithShadow(textRenderer, Text.translatable("graghScreen.ratio", SCALE_X, SCALE_Y), 0, 0, 0xffffffff);
     }
 
@@ -78,14 +78,6 @@ public class GraphScreen extends Screen {
             double ny = func.applyAsDouble(nx);
             double py = (int) (centerY - ny / SCALE_Y);
             context.fill((int) px, (int) py, (int) (px + 1), (int) (py + 1), fColor.getRGB());
-            /*if ((nx % 1 <= PRECISION && nx % 1 >= 0) || (nx % 1 >= -PRECISION && nx % 1 <= 0)) {
-                context.fill((int) px, centerY + 1, (int) (px + 1), centerY - 1, sColor.getRGB());
-            }*/
         }
-
-        /*for (double py = PADDING; py <= height - PADDING; py += PRECISION) {
-            double ny = (centerY - py) * SCALE_Y;
-            context.fill(centerX - 1, (int) ny, centerX + 1, (int) (ny + 1), sColor.getRGB());
-        }*/
     }
 }
