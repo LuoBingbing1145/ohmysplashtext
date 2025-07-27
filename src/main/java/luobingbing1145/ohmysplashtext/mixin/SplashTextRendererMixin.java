@@ -56,20 +56,19 @@ public abstract class SplashTextRendererMixin {
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lorg/joml/Matrix3x2fStack;rotate(F)Lorg/joml/Matrix3x2f;"))
     private float modifyRotation(float par1) {
-        float multiplier = 0.34906584f / 20f;
         if (config.isRotationAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
                 DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                return (float) (parser.applyAsDouble(((double) Util.getMeasuringTimeMs() / 1000)) * multiplier);
+                return (float) Math.toRadians(parser.applyAsDouble(((double) Util.getMeasuringTimeMs() / 1000)));
             } else {
                 if (config.getRotationSpeed() != 0) {
-                    return Util.getMeasuringTimeMs() / 1000f * config.getRotationSpeed() * multiplier;
+                    return Util.getMeasuringTimeMs() / 1000f * config.getRotationSpeed();
                 } else {
-                    return config.getRotation() * multiplier;
+                    return (float) Math.toRadians(config.getRotation());
                 }
             }
         } else {
-            return config.getRotation() * multiplier;
+            return (float) Math.toRadians(config.getRotation());
         }
     }
 
