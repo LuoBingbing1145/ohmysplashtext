@@ -93,10 +93,6 @@ public class ModClientConfig {
     )
     private String functionOfRotationAnim = "-20";
 
-    /*@SerialEntry
-    private float scaleZ = 1;*/
-    //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
-
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.create(INSTANCE, (defaults, config, builder) ->
                 builder
@@ -435,26 +431,6 @@ public class ModClientConfig {
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()
                                         )
-                                        /*.option(
-                                                Option
-                                                        .<Float>createBuilder()
-                                                        .name(Text.translatable("config.ohmysplashtext.option.scaleZ"))
-                                                        .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.scaleZ.desc")))
-                                                        .binding(
-                                                                defaults.scaleZ,
-                                                                () -> config.scaleZ,
-                                                                value -> config.scaleZ = value
-                                                        )
-                                                        .controller(floatOption ->
-                                                                FloatSliderControllerBuilder
-                                                                        .create(floatOption)
-                                                                        .range(0.1f, 5f)
-                                                                        .step(0.1f)
-                                                        )
-                                                        .available(config.isAdvancedModeEnable())
-                                                        .build()
-                                        )*/
-                                        //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
                                         .option(
                                                 LabelOption
                                                         .createBuilder()
@@ -505,11 +481,6 @@ public class ModClientConfig {
     public float getScaleY() {
         return scaleY;
     }
-
-    /*public float getScaleZ() {
-        return scaleZ;
-    }*/
-    //源代码中闪烁标语入参有z轴大小，经测试无意义后删除配置功能
 
     public float getScale() {
         return scale;
