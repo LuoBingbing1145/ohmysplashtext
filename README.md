@@ -24,7 +24,6 @@
 模组暂未上架 Modrinth 或 CurseForge，**请通过 GitHub Releases 页面下载**：[Releases](https://github.com/LuoBingbing1145/ohmysplashtext/releases)  
 
 ### ✅ 必需依赖：  
-- [Fabric API](https://modrinth.com/mod/fabric-api)  
 - [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl)  
 
 ### 🧩 可选依赖（推荐）：  
@@ -45,4 +44,4 @@
 
 本模组采用 **[CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.zh)** 协议发布。  
 
-- 作者：**LuoBingbing1145**  
+- 作者：**LuoBingbing1145**
