@@ -10,10 +10,11 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/LuoBingbing1145/ohmysplashtext/total)
 ![Github stars](https://img.shields.io/github/stars/LuoBingbing1145/ohmysplashtext.svg)  
 
+[English](README_EN_US.md)  [简体中文](README.md)  
+
 ## ✨ 简介  
 
-**OhMySplashText** 是一个Fabric客户端模组，允许你自定义启动界面的闪烁标语 `Splash Text` ，包括：  
-
+**OhMySplashText** 是一个 **Fabric** 客户端模组，允许你自定义启动界面的闪烁标语 `Splash Text` ，包括：  
 - ✅ 自定义文本内容  
 - 🎨 支持设置颜色、字体大小  
 - 🔄 自由调整旋转角度  
@@ -56,7 +57,8 @@ A: **不会**。目前仅维护 **1.20 及以上版本**，*无向下兼容计�
 A: **暂无计划**。作者是第一次开发模组，能力有限，目前仅熟悉 **Fabric** 平台，敬请理解。  
 
 ### Q: 函数动画要怎么写？
-A: 你可以使用模组内置的**函数预览界面**进行实时测试，配合已添加的**内置函数模板**功能，即使不会写表达式也能快速上手。*该功能仍处于实验阶段，如遇问题欢迎在 Issue 区反馈！*  
+A: 你可以使用模组内置的**函数预览界面**进行实时测试，配合已添加的**内置函数模板**功能，即使不会写表达式也能快速上手。  
+*提示：该功能仍处于实验阶段，如遇问题欢迎在 Issue 区反馈！*  
 
 ## ⚖️ 许可信息  
 
