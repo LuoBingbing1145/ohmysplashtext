@@ -43,5 +43,11 @@
   "graghScreen.title": "函数预览界面",
   "menu.ohmysplashtext.configScreen": "闪烁标语",
   "graghScreen.tooltip": "X：%s  Y：%s",
-  "graghScreen.coord": "切换坐标"
+  "graghScreen.coord": "切换坐标",
+  "config.ohmysplashtext.option.splashingFunctionTemplates": "闪烁动画函数模板",
+  "config.ohmysplashtext.option.splashingFunctionTemplates.desc": "内置函数模板\n%s：%s\n%s：%s\n%s：%s\n%s：%s\n%s：%s",
+  "config.ohmysplashtext.option.function.splashing": "%s",
+  "config.ohmysplashtext.option.rotationFunctionTemplates": "旋转动画函数模板",
+  "config.ohmysplashtext.option.rotationFunctionTemplates.desc": "内置函数模板\n%s：%s\n%s：%s\n%s：%s",
+  "config.ohmysplashtext.option.function.rotation": "%s"
 }

@@ -43,5 +43,11 @@
   "graghScreen.title": "Function Preview Screen",
   "menu.ohmysplashtext.configScreen": "Splash Text",
   "graghScreen.tooltip": "X: %s  Y: %s",
-  "graghScreen.coord": "Toggle Coordinate"
+  "graghScreen.coord": "Toggle Coordinate",
+  "config.ohmysplashtext.option.splashingFunctionTemplates": "Function Templates of Splashing Animation",
+  "config.ohmysplashtext.option.splashingFunctionTemplates.desc": "Built-in Function Templates\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s",
+  "config.ohmysplashtext.option.function.splashing": "%s",
+  "config.ohmysplashtext.option.rotationFunctionTemplates": "Function Templates of Rotation Animation",
+  "config.ohmysplashtext.option.rotationFunctionTemplates.desc": "Built-in Function Templates\n%s: %s\n%s: %s\n%s: %s",
+  "config.ohmysplashtext.option.function.rotation": "%s"
 }
