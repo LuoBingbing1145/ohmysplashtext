@@ -34,7 +34,9 @@ public abstract class SplashTextRendererMixin {
     private void modifyScale(Args args, DrawContext context, int screenWidth, TextRenderer textRenderer, int alpha) {
         if (config.isSplashingAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
-                DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
+                DoubleUnaryOperator parser = MathExpressionParser.parse(
+                        config.getSplashingFunctionTemplates() == ModClientConfig.SplashingFunctionTemplates.OFF ? config.getFunctionOfSplashingAnim() : config.getSplashingFunctionTemplates().getFunction()
+                );
                 float originalScale = (float) ((parser.applyAsDouble((double) Util.getMeasuringTimeMs() / 1000)) * 100f / (float) (textRenderer.getWidth(accessor.getText()) + 32));
                 float x = config.getScaleX() * originalScale;
                 float y = config.getScaleY() * originalScale;
@@ -61,7 +63,9 @@ public abstract class SplashTextRendererMixin {
     private float modifyRotation(float deg) {
         if (config.isRotationAnimEnable()) {
             if (config.isAdvancedModeEnable()) {
-                DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
+                DoubleUnaryOperator parser = MathExpressionParser.parse(
+                        config.getRotationFunctionTemplates() == ModClientConfig.RotationFunctionTemplates.OFF ? config.getFunctionOfRotationAnim() : config.getRotationFunctionTemplates().getFunction()
+                );
                 return (float) parser.applyAsDouble(((double) Util.getMeasuringTimeMs() / 1000));
             } else {
                 if (config.getRotationSpeed() != 0) {
