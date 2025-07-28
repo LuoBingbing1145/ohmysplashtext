@@ -13,6 +13,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.function.DoubleUnaryOperator;
@@ -50,7 +52,7 @@ public class ModClientConfig {
     @SerialEntry
     private boolean isSplashingAnimEnable = true;
 
-    @SerialEntry(comment = "The \"Splashing Animation\" option needs to be on")
+    @SerialEntry
     private float splashingSpeed = 2f;
 
     @SerialEntry
@@ -59,7 +61,7 @@ public class ModClientConfig {
     @SerialEntry
     private boolean isRotationAnimEnable = false;
 
-    @SerialEntry(comment = "The \"Rotation Animation\" option needs to be on")
+    @SerialEntry
     private float rotationSpeed = 0f;
 
     @SerialEntry
@@ -82,6 +84,9 @@ public class ModClientConfig {
     )
     private String functionOfSplashingAnim = "1.8-abs(sin(n*2*pi)*0.1)";
 
+    @SerialEntry(comment = "Available Options: OFF, DEFAULT, BOUNCING, REVERSAL, FLASHING, STIFFNESS")
+    private SplashingFunctionTemplates splashingFunctionTemplates = SplashingFunctionTemplates.OFF;
+
     @SerialEntry(comment =
             """
             Customize Rotation Animation
@@ -92,6 +97,9 @@ public class ModClientConfig {
             """
     )
     private String functionOfRotationAnim = "-20";
+
+    @SerialEntry(comment = "Available Options: OFF, DEFAULT, SWING, STIFFNESS")
+    private RotationFunctionTemplates rotationFunctionTemplates = RotationFunctionTemplates.OFF;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.create(INSTANCE, (defaults, config, builder) ->
@@ -378,7 +386,7 @@ public class ModClientConfig {
                                                                     }
                                                                 }
                                                         )
-                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable() && config.isSplashTextEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable() && config.isSplashTextEnable() && config.getSplashingFunctionTemplates() == SplashingFunctionTemplates.OFF)
                                                         .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
@@ -391,7 +399,36 @@ public class ModClientConfig {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
                                                             MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.02f, 0.1f, 20));
                                                         })
-                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
+                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable() && config.getSplashingFunctionTemplates() == SplashingFunctionTemplates.OFF)
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<SplashingFunctionTemplates>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.splashingFunctionTemplates"))
+                                                        .description(OptionDescription.of(Text.translatable(
+                                                                "config.ohmysplashtext.option.splashingFunctionTemplates.desc",
+                                                                SplashingFunctionTemplates.DEFAULT.name(),
+                                                                SplashingFunctionTemplates.DEFAULT.getFunction(),
+                                                                SplashingFunctionTemplates.BOUNCING.name(),
+                                                                SplashingFunctionTemplates.BOUNCING.getFunction(),
+                                                                SplashingFunctionTemplates.REVERSAL.name(),
+                                                                SplashingFunctionTemplates.REVERSAL.getFunction(),
+                                                                SplashingFunctionTemplates.FLASHING.name(),
+                                                                SplashingFunctionTemplates.FLASHING.getFunction(),
+                                                                SplashingFunctionTemplates.STIFFNESS.name(),
+                                                                SplashingFunctionTemplates.STIFFNESS.getFunction()
+                                                        )))
+                                                        .binding(
+                                                                defaults.getSplashingFunctionTemplates(),
+                                                                config::getSplashingFunctionTemplates,
+                                                                splashingFunctionTemplates1 -> {
+                                                                    config.splashingFunctionTemplates = splashingFunctionTemplates1;
+                                                                    refreshScreen(makeScreen(parent));
+                                                                }
+                                                        )
+                                                        .controller(splashingFunctionTemplatesOption -> EnumControllerBuilder.create(splashingFunctionTemplatesOption).enumClass(SplashingFunctionTemplates.class))
+                                                        .available(config.isAdvancedModeEnable() && config.isSplashingAnimEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -415,7 +452,7 @@ public class ModClientConfig {
                                                                     }
                                                                 }
                                                         )
-                                                        .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.isSplashTextEnable())
+                                                        .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.isSplashTextEnable() && config.getRotationFunctionTemplates() == RotationFunctionTemplates.OFF)
                                                         .controller(StringControllerBuilder::create)
                                                         .build()
                                         )
@@ -428,7 +465,32 @@ public class ModClientConfig {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
                                                             MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.5f, 0.1f, 20));
                                                         })
-                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
+                                                        .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.getRotationFunctionTemplates() == RotationFunctionTemplates.OFF)
+                                                        .build()
+                                        )
+                                        .option(
+                                                Option
+                                                        .<RotationFunctionTemplates>createBuilder()
+                                                        .name(Text.translatable("config.ohmysplashtext.option.rotationFunctionTemplates"))
+                                                        .description(OptionDescription.of(Text.translatable(
+                                                                "config.ohmysplashtext.option.rotationFunctionTemplates.desc",
+                                                                RotationFunctionTemplates.DEFAULT.name(),
+                                                                RotationFunctionTemplates.DEFAULT.getFunction(),
+                                                                RotationFunctionTemplates.SWING.name(),
+                                                                RotationFunctionTemplates.SWING.getFunction(),
+                                                                RotationFunctionTemplates.STIFFNESS.name(),
+                                                                RotationFunctionTemplates.STIFFNESS.getFunction()
+                                                        )))
+                                                        .binding(
+                                                                defaults.getRotationFunctionTemplates(),
+                                                                config::getRotationFunctionTemplates,
+                                                                rotationFunctionTemplates1 -> {
+                                                                    config.rotationFunctionTemplates = rotationFunctionTemplates1;
+                                                                    refreshScreen(makeScreen(parent));
+                                                                }
+                                                        )
+                                                        .controller(rotationFunctionTemplatesOption -> EnumControllerBuilder.create(rotationFunctionTemplatesOption).enumClass(RotationFunctionTemplates.class))
+                                                        .available(config.isAdvancedModeEnable() && config.isRotationAnimEnable() && config.isSplashTextEnable())
                                                         .build()
                                         )
                                         .option(
@@ -440,6 +502,62 @@ public class ModClientConfig {
                                         .build()
                         )
         ).generateScreen(parent);
+    }
+
+    public SplashingFunctionTemplates getSplashingFunctionTemplates() {
+        return splashingFunctionTemplates;
+    }
+
+    public RotationFunctionTemplates getRotationFunctionTemplates() {
+        return rotationFunctionTemplates;
+    }
+
+    public enum SplashingFunctionTemplates implements NameableEnum {
+        OFF(""),
+        DEFAULT("1.8-abs(sin(n*2*pi)*0.1)"),
+        BOUNCING("1.8-sin(n*2*pi)*0.1"),
+        REVERSAL("sin(n*2*pi)"),
+        FLASHING("sin(n*2*pi)+1"),
+        STIFFNESS("abs((n%1)*2-1)+1");
+
+        private final String FUNCTION;
+
+        SplashingFunctionTemplates(String func) {
+            this.FUNCTION = func;
+        }
+
+        @Contract(" -> new")
+        @Override
+        public @NotNull Text getDisplayName() {
+            return Text.translatable("config.ohmysplashtext.option.function.splashing", name());
+        }
+
+        public String getFunction() {
+            return FUNCTION;
+        }
+    }
+
+    public enum RotationFunctionTemplates implements NameableEnum {
+        OFF(""),
+        DEFAULT("-20"),
+        SWING("sin(n*pi)*45"),
+        STIFFNESS("abs((n%1)*180-90)-45");
+
+        private final String FUNCTION;
+
+        RotationFunctionTemplates(String func) {
+            this.FUNCTION = func;
+        }
+
+        @Contract(" -> new")
+        @Override
+        public @NotNull Text getDisplayName() {
+            return Text.translatable("config.ohmysplashtext.option.function.rotation", name());
+        }
+
+        public String getFunction() {
+            return FUNCTION;
+        }
     }
 
     private static void refreshScreen(Screen screen) {
