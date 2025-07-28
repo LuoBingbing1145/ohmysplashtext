@@ -10,7 +10,7 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/LuoBingbing1145/ohmysplashtext/total)
 ![Github stars](https://img.shields.io/github/stars/LuoBingbing1145/ohmysplashtext.svg)  
 
-[English](README_EN_US.md)  [简体中文](README.md)  
+### [English](README_EN_US.md)  [简体中文](README.md)  
 
 ## ✨ 简介  
 
