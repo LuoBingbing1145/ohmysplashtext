@@ -36,14 +36,14 @@ You're welcome to contribute translations for other languages!
   - **1.20.1** (a widely used popular version)
 - Other versions (e.g., 1.20.2~1.20.4) will be **supported as needed**, *with no guarantee of simultaneous updates*
 
-📦 Installation  
+## 📦 Installation  
 This mod is not yet available on Modrinth or CurseForge.
 Please download it from the GitHub Releases page: Releases
 
-## ✅ Required Dependencies:  
+### ✅ Required Dependencies:  
 - [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl)  
 
-## 🧩 Optional (Recommended):  
+### 🧩 Optional (Recommended):  
 - [Mod Menu](https://modrinth.com/mod/modmenu): for accessing the config GUI in-game  
 
 Place the `.jar` file in the `mods` folder for your Minecraft version.  
