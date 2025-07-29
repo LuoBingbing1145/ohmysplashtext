@@ -6,19 +6,18 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/LuoBingbing1145/ohmysplashtext)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LuoBingbing1145/ohmysplashtext)  
 ![GitHub License](https://img.shields.io/github/license/LuoBingbing1145/ohmysplashtext)  
-![GitHub Release](https://img.shields.io/github/v/release/LuoBingbing1145/ohmysplashtext)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/LuoBingbing1145/ohmysplashtext/total)
 ![Github stars](https://img.shields.io/github/stars/LuoBingbing1145/ohmysplashtext.svg)  
 
-### [English](README_EN_US.md)  [简体中文](README.md)  
+- [English](README_EN_US.md)  
+- [简体中文](README.md)  
 
 ## ✨ 简介  
 
 **OhMySplashText** 是一个 **Fabric** 客户端模组，允许你自定义启动界面的闪烁标语 `Splash Text` ，包括：  
-- ✅ 自定义文本内容  
-- 🎨 支持设置颜色、字体大小  
-- 🔄 自由调整旋转角度  
-- 📈 使用数学表达式自定义动画（如位置、旋转等随时间变化），支持实时预览  
+- 自定义文本内容  
+- 支持设置颜色、字体大小  
+- 自由调整旋转角度  
+- 使用数学表达式自定义动画（如位置、旋转等随时间变化），支持实时预览  
 
 ## 🌍 多语言支持  
 
@@ -38,12 +37,12 @@
 
 ## 📦 安装方式  
 
-模组暂未上架 Modrinth 或 CurseForge，**请通过 GitHub Releases 页面下载**：[Releases](https://github.com/LuoBingbing1145/ohmysplashtext/releases)  
+### 下载方式：[Modrinth](https://modrinth.com/mod/ohmysplashtext/versions) （最新版）  
 
-### ✅ 必需依赖：  
+#### 必需依赖：  
 - [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl)  
 
-### 🧩 可选依赖（推荐）：  
+#### 可选依赖（推荐）：  
 - [Mod Menu](https://modrinth.com/mod/modmenu)：用于在游戏内打开配置界面。  
 
 将 `.jar` 文件放入对应版本的 `mods` 文件夹，即可启动。  
