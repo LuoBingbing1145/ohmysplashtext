@@ -389,7 +389,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfSplashingAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.02, 0.1, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.02f, 0.1f, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isSplashingAnimEnable())
                                                         .build()
@@ -426,7 +426,7 @@ public class ModClientConfig {
                                                         .description(OptionDescription.of(Text.translatable("config.ohmysplashtext.option.gragh.desc")))
                                                         .action((yaclScreen, buttonOption) -> {
                                                             DoubleUnaryOperator parser = MathExpressionParser.parse(config.getFunctionOfRotationAnim());
-                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.01, 0.5, 0.1, 20));
+                                                            MinecraftClient.getInstance().setScreen(new GraphScreen(makeScreen(parent), parser, 0.005f, 0.5f, 0.1f, 20));
                                                         })
                                                         .available(config.isSplashTextEnable() && config.isAdvancedModeEnable() && config.isRotationAnimEnable())
                                                         .build()
