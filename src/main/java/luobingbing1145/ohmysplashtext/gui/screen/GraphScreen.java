@@ -61,33 +61,8 @@ public class GraphScreen extends Screen {
 
         // 只有尺寸改变时才重新计算函数点
         cachedPoints = null;
-        cacheFunctionPoints(FUNCTION);
+        cacheFunctionPoints();
     }
-
-    private void cacheFunctionPoints(DoubleUnaryOperator func) {
-        int centerX = width / 2;
-        int centerY = height / 2;
-
-        cachedPoints = new ArrayList<>();
-
-        int lastX = 0;
-        int lastY = 0;
-
-        for (float px = PADDING; px <= width - PADDING; px += PRECISION) {
-            float nx = (-centerX + px) * SCALE_X;
-            float ny = (float) func.applyAsDouble(nx);
-            float py = centerY - ny / SCALE_Y;
-            int x = (int) (px + 0.5);
-            int y = (int) (py + 0.5);
-            if (y != lastY || x != lastX) {
-                cachedPoints.add(new Point(x, y));
-            }
-            lastX = x;
-            lastY = y;
-        }
-    }
-
-    private record Point(int x, int y) {}
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -95,7 +70,7 @@ public class GraphScreen extends Screen {
 
         // 如果函数点没有缓存，缓存并绘制
         if (cachedPoints == null) {
-            cacheFunctionPoints(FUNCTION);
+            cacheFunctionPoints();
         }
 
         drawAxes(context, new Color(0xffffffff, true));
@@ -108,6 +83,29 @@ public class GraphScreen extends Screen {
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         super.renderBackground(context, mouseX, mouseY, deltaTicks);
+    }
+
+    private void cacheFunctionPoints() {
+        int centerX = width / 2;
+        int centerY = height / 2;
+
+        cachedPoints = new ArrayList<>();
+
+        int lastX = 0;
+        int lastY = 0;
+
+        for (float px = PADDING; px <= width - PADDING; px += PRECISION) {
+            float nx = (-centerX + px) * SCALE_X;
+            float ny = (float) FUNCTION.applyAsDouble(nx);
+            float py = centerY - ny / SCALE_Y;
+            int x = (int) (px + 0.5);
+            int y = (int) (py + 0.5);
+            if (y != lastY || x != lastX) {
+                cachedPoints.add(new Point(x, y));
+            }
+            lastX = x;
+            lastY = y;
+        }
     }
 
     private void drawAxes(@NotNull DrawContext context, @NotNull Color color) {
@@ -125,9 +123,9 @@ public class GraphScreen extends Screen {
         }
     }
 
-    private void drawFunction(DrawContext context, Color fColor) {
+    private void drawFunction(DrawContext context, Color color) {
         for (Point p : cachedPoints) {
-            context.fill(p.x, p.y, p.x + 1, p.y + 1, fColor.getRGB());
+            context.fill(p.x, p.y, p.x + 1, p.y + 1, color.getRGB());
         }
     }
 
@@ -144,4 +142,6 @@ public class GraphScreen extends Screen {
             context.drawTooltip(textRenderer, Text.translatable("graghScreen.tooltip", String.format("%.2f", nx), String.format("%.2f", ny)), mouseX, (int) py);
         }
     }
+
+    private record Point(int x, int y) {}
 }
