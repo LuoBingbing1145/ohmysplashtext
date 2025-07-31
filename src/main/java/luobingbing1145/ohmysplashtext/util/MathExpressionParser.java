@@ -1,5 +1,8 @@
 package luobingbing1145.ohmysplashtext.util;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.function.DoubleUnaryOperator;
 import java.util.logging.LogManager;
@@ -9,7 +12,7 @@ public class MathExpressionParser {
     private static final Logger logger = Logger.getLogger(MathExpressionParser.class.getName());
 
     // 入口方法：返回一个 Lambda
-    public static DoubleUnaryOperator parse(String input) {
+    public static @NotNull DoubleUnaryOperator parse(String input) {
         Node ast;
         try {
             ast = parseExpression(tokenize(input.replaceAll("\\s+", "")));
@@ -24,7 +27,7 @@ public class MathExpressionParser {
     }
 
     // Tokenizer
-    private static List<String> tokenize(String expr) {
+    private static @NotNull List<String> tokenize(@NotNull String expr) {
         List<String> tokens = new ArrayList<>();
         int i = 0;
         while (i < expr.length()) {
@@ -114,6 +117,7 @@ public class MathExpressionParser {
             return switch (func) {
                 case "sin" -> Math.sin(x);
                 case "cos" -> Math.cos(x);
+                case "tan" -> Math.tan(x);
                 case "abs" -> Math.abs(x);
                 default -> throw new RuntimeException("未知函数: " + func);
             };
@@ -149,7 +153,7 @@ public class MathExpressionParser {
         return left;
     }
 
-    private static Node parseFactor(Queue<String> tokens) {
+    private static Node parseFactor(@NotNull Queue<String> tokens) {
         String token = tokens.poll();
         if (token == null) throw new RuntimeException("表达式不完整");
 
@@ -192,6 +196,8 @@ public class MathExpressionParser {
         if (token.equals("n")) return new VariableNode();
         // 新增支持 pi
         if (token.equalsIgnoreCase("pi")) return new NumberNode(Math.PI);
+        // 新增支持 e
+        if (token.equalsIgnoreCase("e")) return new NumberNode(Math.E);
 
         if (isFunction(token)) {
             if (!Objects.equals(tokens.poll(), "(")) throw new RuntimeException("函数调用缺少括号");
@@ -203,19 +209,20 @@ public class MathExpressionParser {
         throw new RuntimeException("无法识别的标记: " + token);
     }
 
-    private static boolean isNumber(String s) {
+    @Contract(pure = true)
+    private static boolean isNumber(@NotNull String s) {
         return s.matches("\\d+(\\.\\d+)?");
     }
 
-    private static boolean isFunction(String s) {
-        return s.equals("sin") || s.equals("cos") || s.equals("abs");
+    private static boolean isFunction(@NotNull String s) {
+        return s.equals("sin") || s.equals("cos") || s.equals("tan") || s.equals("abs");
     }
 
     static {
         try {
             LogManager.getLogManager().readConfiguration();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 }
