@@ -18,8 +18,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.function.DoubleUnaryOperator;
+import java.util.logging.Logger;
 
 public class ModClientConfig {
+    private static final Logger logger = Logger.getLogger(ModClientConfig.class.getName());
     public static ConfigClassHandler<ModClientConfig> INSTANCE =
             ConfigClassHandler
                     .createBuilder(ModClientConfig.class)
@@ -28,7 +30,7 @@ public class ModClientConfig {
                             GsonConfigSerializerBuilder
                                     .create(config)
                                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("ohmysplashtext-client.json5"))
-                                    .appendGsonBuilder(GsonBuilder::setPrettyPrinting) // not needed, pretty print by default
+                                    .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
                                     .setJson5(true)
                                     .build()
                     )
@@ -77,7 +79,7 @@ public class ModClientConfig {
             """
             Customize Splashing Animation
             n Represents Current Timestamp(Seconds)
-            sin(), cos(), abs(), %, pi Supported
+            sin(), cos(), tan(), abs(), %, pi, e Supported
             Example: 0.5+abs(cos(n*pi*3))*2 = 0.5+2|cos(3πn)|
             Requires "Rotation Animation" Enable
             """
@@ -91,7 +93,7 @@ public class ModClientConfig {
             """
             Customize Rotation Animation
             n Represents Current Timestamp(Seconds)
-            sin(), cos(), abs(), %, pi Supported
+            sin(), cos(), tan(), abs(), %, pi, e Supported
             Example: sin(n*2*pi)*1.5 = 1.5sin(2πn))
             Requires "Splashing Animation" Enable
             """
@@ -382,7 +384,7 @@ public class ModClientConfig {
                                                                         config.functionOfSplashingAnim = defaults.getFunctionOfSplashingAnim();
 
                                                                         // 记录日志
-                                                                        System.err.println("配置表达式无效，已恢复为默认值！");
+                                                                        logger.severe(e.getMessage());
                                                                     }
                                                                 }
                                                         )
@@ -448,7 +450,7 @@ public class ModClientConfig {
                                                                         config.functionOfRotationAnim = defaults.getFunctionOfRotationAnim();
 
                                                                         // 记录日志
-                                                                        System.err.println("配置表达式无效，已恢复为默认值！");
+                                                                        logger.severe(e.getMessage());
                                                                     }
                                                                 }
                                                         )
@@ -504,64 +506,16 @@ public class ModClientConfig {
         ).generateScreen(parent);
     }
 
+    private static void refreshScreen(Screen screen) {
+        MinecraftClient.getInstance().setScreen(screen);
+    }
+
     public SplashingFunctionTemplates getSplashingFunctionTemplates() {
         return splashingFunctionTemplates;
     }
 
     public RotationFunctionTemplates getRotationFunctionTemplates() {
         return rotationFunctionTemplates;
-    }
-
-    public enum SplashingFunctionTemplates implements NameableEnum {
-        OFF(""),
-        DEFAULT("1.8-abs(sin(n*2*pi)*0.1)"),
-        BOUNCING("1.8-sin(n*2*pi)*0.1"),
-        REVERSAL("sin(n*2*pi)"),
-        FLASHING("sin(n*2*pi)+1"),
-        STIFFNESS("abs((n%1)*2-1)+1");
-
-        private final String FUNCTION;
-
-        SplashingFunctionTemplates(String func) {
-            this.FUNCTION = func;
-        }
-
-        @Contract(" -> new")
-        @Override
-        public @NotNull Text getDisplayName() {
-            return Text.translatable("config.ohmysplashtext.option.function.splashing", name());
-        }
-
-        public String getFunction() {
-            return FUNCTION;
-        }
-    }
-
-    public enum RotationFunctionTemplates implements NameableEnum {
-        OFF(""),
-        DEFAULT("-20"),
-        SWING("sin(n*pi)*45"),
-        STIFFNESS("abs((n%1)*180-90)-45");
-
-        private final String FUNCTION;
-
-        RotationFunctionTemplates(String func) {
-            this.FUNCTION = func;
-        }
-
-        @Contract(" -> new")
-        @Override
-        public @NotNull Text getDisplayName() {
-            return Text.translatable("config.ohmysplashtext.option.function.rotation", name());
-        }
-
-        public String getFunction() {
-            return FUNCTION;
-        }
-    }
-
-    private static void refreshScreen(Screen screen) {
-        MinecraftClient.getInstance().setScreen(screen);
     }
 
     public float getSplashingSpeed() {
@@ -622,5 +576,53 @@ public class ModClientConfig {
 
     public boolean isButtonEnable() {
         return isButtonEnable;
+    }
+
+    public enum SplashingFunctionTemplates implements NameableEnum {
+        OFF(""),
+        DEFAULT("1.8-abs(sin(n*2*pi)*0.1)"),
+        BOUNCING("1.8-sin(n*2*pi)*0.1"),
+        REVERSAL("sin(n*2*pi)"),
+        FLASHING("sin(n*2*pi)+1"),
+        STIFFNESS("abs((n%1)*2-1)+1");
+
+        private final String FUNCTION;
+
+        SplashingFunctionTemplates(String func) {
+            this.FUNCTION = func;
+        }
+
+        @Contract(" -> new")
+        @Override
+        public @NotNull Text getDisplayName() {
+            return Text.translatable("config.ohmysplashtext.option.function.splashing", name());
+        }
+
+        public String getFunction() {
+            return FUNCTION;
+        }
+    }
+
+    public enum RotationFunctionTemplates implements NameableEnum {
+        OFF(""),
+        DEFAULT("-20"),
+        SWING("sin(n*pi)*45"),
+        STIFFNESS("abs((n%1)*180-90)-45");
+
+        private final String FUNCTION;
+
+        RotationFunctionTemplates(String func) {
+            this.FUNCTION = func;
+        }
+
+        @Contract(" -> new")
+        @Override
+        public @NotNull Text getDisplayName() {
+            return Text.translatable("config.ohmysplashtext.option.function.rotation", name());
+        }
+
+        public String getFunction() {
+            return FUNCTION;
+        }
     }
 }
