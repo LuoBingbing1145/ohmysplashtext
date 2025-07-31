@@ -62,6 +62,28 @@ public class GraphScreen extends Screen {
         // 只有尺寸改变时才重新计算函数点
         cachedPoints = null;
         cacheFunctionPoints();
+        cacheFunctionPoints();
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
+
+        // 如果函数点没有缓存，缓存并绘制
+        if (cachedPoints == null) {
+            cacheFunctionPoints();
+        }
+
+        drawAxes(context, new Color(0xffffffff, true));
+        drawFunction(context, new Color(0xffffff00, true));
+        drawTooltip(context, mouseX, new Color(0xff007fff, true));
+
+        context.drawTextWithShadow(textRenderer, Text.translatable("graghScreen.ratio", SCALE_X, SCALE_Y), 0, 0, 0xffffffff);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        super.renderBackground(context, mouseX, mouseY, deltaTicks);
     }
 
     private void cacheFunctionPoints() {
@@ -87,25 +109,6 @@ public class GraphScreen extends Screen {
         }
     }
 
-    private record Point(int x, int y) {}
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta); // 背景
-        super.render(context, mouseX, mouseY, delta);
-
-        // 如果函数点没有缓存，缓存并绘制
-        if (cachedPoints == null) {
-            cacheFunctionPoints();
-        }
-
-        drawAxes(context, new Color(0xffffffff, true));
-        drawFunction(context, new Color(0xffffff00, true));
-        drawTooltip(context, mouseX, new Color(0xff007fff, true));
-
-        context.drawTextWithShadow(textRenderer, Text.translatable("graghScreen.ratio", SCALE_X, SCALE_Y), 0, 0, 0xffffffff);
-    }
-
     private void drawAxes(@NotNull DrawContext context, @NotNull Color color) {
         int centerX = width / 2;
         int centerY = height / 2;
@@ -121,9 +124,9 @@ public class GraphScreen extends Screen {
         }
     }
 
-    private void drawFunction(DrawContext context, Color fColor) {
+    private void drawFunction(DrawContext context, Color color) {
         for (Point p : cachedPoints) {
-            context.fill(p.x, p.y, p.x + 1, p.y + 1, fColor.getRGB());
+            context.fill(p.x, p.y, p.x + 1, p.y + 1, color.getRGB());
         }
     }
 
@@ -140,4 +143,6 @@ public class GraphScreen extends Screen {
             context.drawTooltip(textRenderer, Text.translatable("graghScreen.tooltip", String.format("%.2f", nx), String.format("%.2f", ny)), mouseX, (int) py);
         }
     }
+
+    private record Point(int x, int y) {}
 }
